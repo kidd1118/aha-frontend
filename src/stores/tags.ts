@@ -11,7 +11,7 @@ export interface ITagState {
   status: string
 }
 
-export const initialState: ITagState = {
+let initialState: ITagState = {
   list: [],
   status: 'idle',
 }
@@ -31,11 +31,17 @@ const tagsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTagsAsync.pending, () => {
-        initialState.status = 'loading'
+        initialState = { status: 'pending', list: [] }
       })
       .addCase(getTagsAsync.fulfilled, (state, { payload }) => {
-        initialState.status = 'idle'
-        initialState.list = payload
+        initialState = { status: 'idle', list: payload }
+      })
+      .addCase(getTagsAsync.rejected, (state, action) => {
+        if (action.payload) {
+          console.warn('rejected', action.payload)
+        } else {
+          console.warn('rejected', action.error.message)
+        }
       })
   },
 })
