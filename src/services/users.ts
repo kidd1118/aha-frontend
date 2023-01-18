@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 export interface IUser {
   avater: string
@@ -20,12 +20,12 @@ export function getUsers(
   page: number = 1,
   pageSize: number = 10,
   keyword: string = ''
-): IUsersResponse {
+): AxiosResponse {
   return axios.get('https://avl-frontend-exam.herokuapp.com/api/users/all', {
     params: {
       page,
       pageSize,
       keyword,
     },
-  }) as unknown as IUsersResponse
+  }) as unknown as AxiosResponse
 }

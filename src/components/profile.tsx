@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import Button from '@mui/material/Button'
-import { getUsersAsync } from '../stores/users'
-import { useAppDispatch, RootState, useTypedSelector } from '../stores'
+import { getUsersAsync } from '../store/users'
+import { RootState } from '../store'
 import { IUser } from '../services/users'
+import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
 
 function User({ user }: any) {
   return (
@@ -27,13 +28,16 @@ function Tab({ title }: any) {
 }
 export default function Profile() {
   const dispatch = useAppDispatch()
-  const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
 
   useEffect(() => {
-    dispatch(getUsersAsync())
-    console.log('users-1', users)
-  }, [dispatch, users])
-  console.log('users-2', users)
+    async function fetchData() {
+      await dispatch(getUsersAsync())
+    }
+    fetchData()
+  }, [dispatch])
+
+  const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
+
   return (
     <div className="w-[375px] pt-8">
       <div className="flex flex-row cursor-pointer">

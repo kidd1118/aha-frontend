@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { AxiosResponse } from 'axios'
 import { IUser, IUsersResponse, getUsers } from '../services/users'
 
 export const getUsersAsync = createAsyncThunk('users/all', async () => {
-  const response: IUsersResponse = await getUsers()
-  console.log('response', response)
-  return response.data
+  const response: AxiosResponse = await getUsers()
+  const data: IUsersResponse = response.data as IUsersResponse
+  return data.data
 })
 
 export interface IUserState {
@@ -12,7 +14,7 @@ export interface IUserState {
   status: string
 }
 
-let initialState: IUserState = {
+const initialState: IUserState = {
   list: [],
   status: 'idle',
 }
@@ -20,22 +22,17 @@ let initialState: IUserState = {
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {
-    add: (state, { payload }) => {
-      initialState.list.push(payload)
-    },
-    filter: (state, action) => {
-      const tag = state.list.filter((item) => item === action.payload)
-      initialState.list = tag && tag.length ? tag : []
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUsersAsync.pending, () => {
-        initialState = { status: 'pending', list: [] }
+      .addCase(getUsersAsync.pending, (state) => {
+        const s = state
+        s.status = 'pending'
       })
       .addCase(getUsersAsync.fulfilled, (state, { payload }) => {
-        initialState = { status: 'idle', list: payload }
+        const s = state
+        s.list = payload
+        s.status = 'idle'
       })
       .addCase(getUsersAsync.rejected, (state, action) => {
         if (action.payload) {
@@ -47,5 +44,4 @@ const usersSlice = createSlice({
   },
 })
 
-export const { add, filter } = usersSlice.actions
 export default usersSlice

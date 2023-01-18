@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { AxiosResponse } from 'axios'
 import { getTags, ITag } from '../services/tags'
 
 export const getTagsAsync = createAsyncThunk('tags', async () => {
-  const data: Array<ITag> = await getTags()
+  const response: AxiosResponse = await getTags()
+  const data: Array<ITag> = response.data as Array<ITag>
   return data
 })
 
@@ -11,7 +14,7 @@ export interface ITagState {
   status: string
 }
 
-let initialState: ITagState = {
+const initialState: ITagState = {
   list: [],
   status: 'idle',
 }
@@ -19,22 +22,17 @@ let initialState: ITagState = {
 const tagsSlice = createSlice({
   name: 'tags',
   initialState,
-  reducers: {
-    add: (state, { payload }) => {
-      initialState.list.push(payload)
-    },
-    filter: (state, action) => {
-      const tag = state.list.filter((item) => item === action.payload)
-      initialState.list = tag && tag.length ? tag : []
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getTagsAsync.pending, () => {
-        initialState = { status: 'pending', list: [] }
+      .addCase(getTagsAsync.pending, (state) => {
+        const s = state
+        s.status = 'pending'
       })
       .addCase(getTagsAsync.fulfilled, (state, { payload }) => {
-        initialState = { status: 'idle', list: payload }
+        const s = state
+        s.list = payload
+        s.status = 'idle'
       })
       .addCase(getTagsAsync.rejected, (state, action) => {
         if (action.payload) {
@@ -46,5 +44,4 @@ const tagsSlice = createSlice({
   },
 })
 
-export const { add, filter } = tagsSlice.actions
 export default tagsSlice
