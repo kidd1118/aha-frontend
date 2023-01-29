@@ -8,6 +8,12 @@ export interface IUser {
   username: string
 }
 
+export interface IUsersRequest {
+  page?: number
+  pageSize?: number
+  keyword?: string
+}
+
 export interface IUsersResponse {
   data: Array<IUser>
   page: number
@@ -16,16 +22,14 @@ export interface IUsersResponse {
   totalPages: number
 }
 
-export function getUsers(
-  page: number = 1,
-  pageSize: number = 10,
-  keyword: string = ''
-): AxiosResponse {
+export function getUsers(params: IUsersRequest | undefined = undefined): AxiosResponse {
   return axios.get('https://avl-frontend-exam.herokuapp.com/api/users/all', {
-    params: {
-      page,
-      pageSize,
-      keyword,
-    },
+    params,
+  }) as unknown as AxiosResponse
+}
+
+export function getFriends(params: IUsersRequest | undefined = undefined): AxiosResponse {
+  return axios.get('https://avl-frontend-exam.herokuapp.com/api/users/friends', {
+    params,
   }) as unknown as AxiosResponse
 }

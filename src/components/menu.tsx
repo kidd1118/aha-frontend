@@ -28,6 +28,7 @@ export default function Menu({ direction }: any) {
       </Link>
       <Link to="/tags">
         {/* <Icon color={`${pathname.includes('tag') ? 'white' : '#8A8A8A'}`} /> */}
+        tags
       </Link>
     </div>
   )

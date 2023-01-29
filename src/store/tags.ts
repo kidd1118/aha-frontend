@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
 import { getTags, ITag } from '../services/tags'
 
-export const getTagsAsync = createAsyncThunk('tags', async () => {
+export const getTagsAsync = createAsyncThunk('tags/all', async () => {
   const response: AxiosResponse = await getTags()
   const data: Array<ITag> = response.data as Array<ITag>
   return data

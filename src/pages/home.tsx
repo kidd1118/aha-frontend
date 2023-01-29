@@ -1,12 +1,14 @@
 import * as React from 'react'
 import Menu from '../components/menu'
-import Profile from '../components/profile'
+import Search from '../components/search'
+import Friends from '../components/friends '
 
-export default function home() {
+export default function Home() {
   return (
     <div>
       <Menu />
-      <Profile />
+      <Search />
+      <Friends />
     </div>
   )
 }

@@ -10,7 +10,7 @@ function User({ user }: any) {
   return (
     <div className="flex flex-row justify-between mb-4">
       <div className="flex flex-row">
-        <img className="rounded" src={user.avater} alt="" width={40} height={40} />
+        {/* <img className="rounded" src={user.avater} alt="" width={40} height={40} /> */}
         <div className="ml-4">
           <div className="text-sm">{user.name}</div>
           <div className="text-xs text-[#929292]">@{user.username}</div>
@@ -26,7 +26,7 @@ function Tab({ title }: any) {
 
   return <div>{title}</div>
 }
-export default function Profile() {
+export default function Friends() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {

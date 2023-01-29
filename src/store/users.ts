@@ -1,10 +1,19 @@
 /* eslint-disable no-console */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
-import { IUser, IUsersResponse, getUsers } from '../services/users'
+import { IUser, IUsersResponse, getUsers, getFriends, IUsersRequest } from '../services/users'
 
-export const getUsersAsync = createAsyncThunk('users/all', async () => {
-  const response: AxiosResponse = await getUsers()
+export const getUsersAsync = createAsyncThunk(
+  'users/all',
+  async (params: IUsersRequest | undefined = undefined) => {
+    const response: AxiosResponse = await getUsers(params)
+    const data: IUsersResponse = response.data as IUsersResponse
+    return data.data
+  }
+)
+
+export const getFriendsAsync = createAsyncThunk('users/friends', async () => {
+  const response: AxiosResponse = await getFriends()
   const data: IUsersResponse = response.data as IUsersResponse
   return data.data
 })
