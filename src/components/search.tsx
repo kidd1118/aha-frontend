@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { useState } from 'react'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import Input from './input'
+import Button from './button'
+import Slider from './slider'
 import { getUsersAsync } from '../store/users'
 import { RootState } from '../store'
 import { IUser, IUsersRequest } from '../services/users'
@@ -23,25 +24,32 @@ function User({ user }: any) {
 
 export default function Search() {
   const dispatch = useAppDispatch()
-  const [tfValue, setTFValue] = useState('')
+  const [inputValue, setInputValue] = useState('')
 
   async function fetchData() {
     const params: IUsersRequest = {}
-    params.keyword = tfValue
+    params.keyword = inputValue
     await dispatch(getUsersAsync(params))
   }
 
   const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
 
+  const [sliderValue, setSliderValue] = useState(30)
+
   return (
     <div className="w-[375px] pt-8">
       <div className="flex flex-row cursor-pointer">
-        <TextField
-          id="standard-basic"
-          value={tfValue}
-          onChange={(newValue) => setTFValue(newValue.target.value)}
+        <div>Search</div>
+        <Input
+          value={inputValue}
           label="Keyword"
-          variant="standard"
+          onChange={(newValue) => setInputValue(newValue.target.value)}
+        />
+        <div># Of Results Per Page</div>
+        <div>{sliderValue} results</div>
+        <Slider
+          value={Number(sliderValue)}
+          onChange={(newValue) => setSliderValue(newValue.target.value)}
         />
         <Button
           color="secondary"

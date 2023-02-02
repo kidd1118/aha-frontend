@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect } from 'react'
-import Button from '@mui/material/Button'
+import Button from './button'
 import { getUsersAsync } from '../store/users'
 import { RootState } from '../store'
 import { IUser } from '../services/users'
@@ -16,23 +16,21 @@ function User({ user }: any) {
           <div className="text-xs text-[#929292]">@{user.username}</div>
         </div>
       </div>
-      <Button variant="text">{user.isFollowing ? 'Following' : 'Follower'}</Button>
+      <Button color="secondary" onClick={() => {}}>
+        {user.isFollowing ? 'Following' : 'Follower'}
+      </Button>
     </div>
   )
 }
 
-function Tab({ title }: any) {
-  //  const [activeTab, setActiveTab] = useState('Followers')
-
-  return <div>{title}</div>
-}
 export default function Friends() {
   const dispatch = useAppDispatch()
 
+  async function fetchData() {
+    await dispatch(getUsersAsync())
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      await dispatch(getUsersAsync())
-    }
     fetchData()
   }, [dispatch])
 
@@ -41,8 +39,22 @@ export default function Friends() {
   return (
     <div className="w-[375px] pt-8">
       <div className="flex flex-row cursor-pointer">
-        <Tab title="Followers" />
-        <Tab title="Following" />
+        <Button
+          color="secondary"
+          onClick={() => {
+            fetchData()
+          }}
+        >
+          Followers
+        </Button>
+        <Button
+          color="secondary"
+          onClick={() => {
+            fetchData()
+          }}
+        >
+          Following
+        </Button>
       </div>
       {users && users.map((user: IUser) => <User user={user} key={user.id} />)}
     </div>
