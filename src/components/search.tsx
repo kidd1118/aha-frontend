@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
+import { styled, Typography } from '@mui/material'
+import Divider from '@mui/material/Divider'
 import Input from './input'
 import Button from './button'
 import Slider from './slider'
@@ -7,6 +9,21 @@ import { getUsersAsync } from '../store/users'
 import { RootState } from '../store'
 import { IUser, IUsersRequest } from '../services/users'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
+
+const Box = styled('div')(() => ({
+  paddingLeft: 50,
+  paddingRight: 50,
+  textAlign: 'left',
+  fontSize: 20,
+  div: {
+    padding: 10,
+  },
+}))
+
+const AhaDivider = styled(Divider)(() => ({
+  borderColor: '#fff',
+  opacity: 0.1,
+}))
 
 function User({ user }: any) {
   return (
@@ -34,33 +51,38 @@ export default function Search() {
 
   const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
 
-  const [sliderValue, setSliderValue] = useState(30)
+  const [sliderValue, setSliderValue] = useState(15)
 
   return (
-    <div className="w-[375px] pt-8">
-      <div className="flex flex-row cursor-pointer">
-        <div>Search</div>
-        <Input
-          value={inputValue}
-          label="Keyword"
-          onChange={(newValue) => setInputValue(newValue.target.value)}
-        />
-        <div># Of Results Per Page</div>
-        <div>{sliderValue} results</div>
-        <Slider
-          value={Number(sliderValue)}
-          onChange={(newValue) => setSliderValue(newValue.target.value)}
-        />
-        <Button
-          color="secondary"
-          onClick={() => {
-            fetchData()
-          }}
-        >
-          Search
-        </Button>
+    <Box>
+      <div>Search</div>
+      <Input
+        value={inputValue}
+        label="Keyword"
+        onChange={(newValue) => setInputValue(newValue.target.value)}
+      />
+      <AhaDivider />
+      <div># Of Results Per Page</div>
+      <div>
+        <Typography variant="h4" display="inline-block">
+          {sliderValue}
+        </Typography>
+        <span> results</span>
       </div>
+      <Slider
+        value={Number(sliderValue)}
+        onChange={(newValue) => setSliderValue(newValue.target.value)}
+      />
+      <AhaDivider />
+      <Button
+        color="secondary"
+        onClick={() => {
+          fetchData()
+        }}
+      >
+        Search
+      </Button>
       {users && users.map((user: IUser) => <User user={user} key={user.id} />)}
-    </div>
+    </Box>
   )
 }

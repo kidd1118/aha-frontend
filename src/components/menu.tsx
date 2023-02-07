@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton'
 import SvgIcon from '@mui/material/SvgIcon'
 
-const Bar = styled('div')(({ theme }) => ({
-  ...theme.typography.body2,
+const Bar = styled('div')(() => ({
   backgroundColor: '#1B1B1B',
   height: '100%',
   display: 'flex',

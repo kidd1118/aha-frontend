@@ -1,5 +1,39 @@
 import * as React from 'react'
 import Slider from '@mui/material/Slider'
+import { styled } from '@mui/material'
+
+const CustomeSlider = styled(Slider)(() => ({
+  height: 8,
+  borderWidth: 0,
+  color: '#fff',
+  '& .MuiSlider-rail': {
+    color: '#fff',
+    borderColor: '#fff',
+  },
+  '& .MuiSlider-track': {
+    backgroundImage: 'linear-gradient(to right, rgb(255, 92, 1), rgb(255, 210, 95))',
+    border: 'none',
+  },
+  '& .MuiSlider-mark': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiSlider-markLabel': {
+    color: '#fff',
+    opacity: 0.5,
+  },
+  '& .MuiSlider-thumb': {
+    color: '#1B1B1B',
+    borderWidth: 4,
+    borderColor: '#FFD05D',
+    borderStyle: 'solid',
+    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+      boxShadow: 'none',
+    },
+    '&:before': {
+      display: 'none',
+    },
+  },
+}))
 
 const marks = [
   {
@@ -23,22 +57,6 @@ const marks = [
     label: '15',
   },
   {
-    value: 20,
-    label: '20',
-  },
-  {
-    value: 25,
-    label: '25',
-  },
-  {
-    value: 30,
-    label: '30',
-  },
-  {
-    value: 40,
-    label: '40',
-  },
-  {
     value: 50,
     label: '50',
   },
@@ -51,12 +69,8 @@ interface Props {
 
 export default function AhaSlider({ value, onChange }: Props) {
   return (
-    <Slider
-      defaultValue={30}
-      sx={{
-        width: 500,
-        color: 'success.main',
-      }}
+    <CustomeSlider
+      defaultValue={15}
       marks={marks}
       min={3}
       max={50}

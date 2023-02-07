@@ -13,7 +13,7 @@ export default function Home() {
           <Menu />
         </Grid>
         <Grid container xs={11}>
-          <Grid xs={8}>
+          <Grid xs={8} padding={5}>
             <Search />
           </Grid>
           <Grid xs="auto">
