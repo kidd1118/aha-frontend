@@ -5,25 +5,31 @@ import { styled } from '@mui/material'
 const CustomeButton = styled(Button)(() => ({
   height: 40,
   width: 340,
-  borderWidth: 0,
+  border: 1,
+  borderColor: '#FFFFFF',
+  borderStyle: 'solid',
   color: '#121212',
   backgroundColor: '#FFFFFF',
   borderRadius: 4,
   fontWeight: 800,
-  '&:focus, &:hover, &:active': {
+  '&:focus, &:active': {
     backgroundColor: '#FFFFFF',
     boxShadow: 'none',
+  },
+  '&:hover': {
+    backgroundColor: '#121212',
+    boxShadow: 'none',
+    color: '#FFFFFF',
   },
 }))
 interface Props {
   children: string
-  color: 'error' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'inherit' | undefined
   onClick: () => void
 }
 
-export default function AhaButton({ children, color, onClick }: Props) {
+export default function AhaButton({ children, onClick }: Props) {
   return (
-    <CustomeButton disableRipple color={color} onClick={onClick}>
+    <CustomeButton disableRipple color="inherit" onClick={onClick}>
       {children}
     </CustomeButton>
   )

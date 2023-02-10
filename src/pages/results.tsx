@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Unstable_Grid2'
 import Menu from '../components/menu'
-import Search from '../components/search'
+import Results from '../components/results'
 import Friends from '../components/friends '
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
         </Grid>
         <Grid container xs={11}>
           <Grid xs={6} padding={5}>
-            <Search />
+            <Results />
           </Grid>
           <Grid xs="auto">
             <Friends />

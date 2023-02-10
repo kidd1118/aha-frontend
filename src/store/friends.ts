@@ -1,43 +1,43 @@
 /* eslint-disable no-console */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
-import { IUser, IUsersResponse, getUsers, IUsersRequest } from '../services/users'
+import { IUser, IUsersResponse, getFriends, IUsersRequest } from '../services/users'
 
-export const getUsersAsync = createAsyncThunk(
-  'users/all',
+export const getFriendsAsync = createAsyncThunk(
+  'users/friends',
   async (params: IUsersRequest | undefined = undefined) => {
-    const response: AxiosResponse = await getUsers(params)
+    const response: AxiosResponse = await getFriends(params)
     const data: IUsersResponse = response.data as IUsersResponse
     return data.data
   }
 )
 
-export interface IUserState {
+export interface IFriendState {
   list: Array<IUser>
   status: string
 }
 
-const initialState: IUserState = {
+const initialState: IFriendState = {
   list: [],
   status: 'idle',
 }
 
-const usersSlice = createSlice({
-  name: 'users',
+const friendsSlice = createSlice({
+  name: 'friend',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUsersAsync.pending, (state) => {
+      .addCase(getFriendsAsync.pending, (state) => {
         const s = state
         s.status = 'pending'
       })
-      .addCase(getUsersAsync.fulfilled, (state, { payload }) => {
+      .addCase(getFriendsAsync.fulfilled, (state, { payload }) => {
         const s = state
         s.list = payload
         s.status = 'idle'
       })
-      .addCase(getUsersAsync.rejected, (state, action) => {
+      .addCase(getFriendsAsync.rejected, (state, action) => {
         if (action.payload) {
           console.warn('rejected', action.payload)
         } else {
@@ -47,4 +47,4 @@ const usersSlice = createSlice({
   },
 })
 
-export default usersSlice
+export default friendsSlice

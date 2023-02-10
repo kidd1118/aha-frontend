@@ -2,18 +2,18 @@ import * as React from 'react'
 import { useState } from 'react'
 import { styled, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
-import Input from './input'
-import Button from './button'
-import Slider from './slider'
+import Input from './common/input'
+import Button from './common/button'
+import Slider from './common/slider'
 import { getUsersAsync } from '../store/users'
-import { RootState } from '../store'
-import { IUser, IUsersRequest } from '../services/users'
-import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
+import { IUsersRequest } from '../services/users'
+import { useAppDispatch } from '../hooks/useTypedSelector'
 
 const Box = styled('div')(() => ({
   paddingLeft: 50,
   paddingRight: 50,
   textAlign: 'left',
+  height: '100%',
   fontSize: 20,
   div: {
     padding: 10,
@@ -25,20 +25,6 @@ const AhaDivider = styled(Divider)(() => ({
   opacity: 0.1,
 }))
 
-function User({ user }: any) {
-  return (
-    <div className="flex flex-row justify-between mb-4">
-      <div className="flex flex-row">
-        {/* <img className="rounded" src={user.avater} alt="" width={40} height={40} /> */}
-        <div className="ml-4">
-          <div className="text-sm">{user.name}</div>
-          <div className="text-xs text-[#929292]">@{user.username}</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function Search() {
   const dispatch = useAppDispatch()
   const [inputValue, setInputValue] = useState('')
@@ -48,8 +34,6 @@ export default function Search() {
     params.keyword = inputValue
     await dispatch(getUsersAsync(params))
   }
-
-  const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
 
   const [sliderValue, setSliderValue] = useState(15)
 
@@ -74,15 +58,15 @@ export default function Search() {
         onChange={(newValue) => setSliderValue(newValue.target.value)}
       />
       <AhaDivider />
-      <Button
-        color="secondary"
-        onClick={() => {
-          fetchData()
-        }}
-      >
-        Search
-      </Button>
-      {users && users.map((user: IUser) => <User user={user} key={user.id} />)}
+      <div>
+        <Button
+          onClick={() => {
+            fetchData()
+          }}
+        >
+          Search
+        </Button>
+      </div>
     </Box>
   )
 }
