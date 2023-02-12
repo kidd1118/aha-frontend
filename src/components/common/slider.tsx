@@ -37,27 +37,27 @@ const CustomeSlider = styled(Slider)(() => ({
 
 const marks = [
   {
-    value: 3,
+    value: 0,
     label: '3',
   },
   {
-    value: 6,
+    value: 1,
     label: '6',
   },
   {
-    value: 9,
+    value: 2,
     label: '9',
   },
   {
-    value: 12,
+    value: 3,
     label: '12',
   },
   {
-    value: 15,
+    value: 4,
     label: '15',
   },
   {
-    value: 50,
+    value: 5,
     label: '50',
   },
 ]
@@ -68,14 +68,31 @@ interface Props {
 }
 
 export default function AhaSlider({ value, onChange }: Props) {
+  const defaultValue = 4
+  function getLabel(v: number): number {
+    const mark: {
+      value: number
+      label: string
+    } = marks.filter((item) => item.value === v)[0]
+    return Number(mark.label)
+  }
+  function getValue(l: number): number {
+    const mark: {
+      value: number
+      label: string
+    } = marks.filter((item) => item.label === l.toString())[0]
+    return mark.value
+  }
   return (
     <CustomeSlider
-      defaultValue={15}
+      defaultValue={defaultValue}
       marks={marks}
-      min={3}
-      max={50}
-      value={value}
-      onChange={onChange}
+      min={0}
+      max={5}
+      value={getValue(value)}
+      onChange={(event, newValue) => {
+        onChange(getLabel(Number(newValue)))
+      }}
     />
   )
 }

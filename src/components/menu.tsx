@@ -36,7 +36,7 @@ export default function Menu() {
         </defs>
       </SvgIcon>
       <Link to="/">
-        <IconButton aria-label="delete" color="primary">
+        <IconButton color="primary">
           <svg
             width="20"
             height="21"
@@ -54,7 +54,7 @@ export default function Menu() {
         </IconButton>
       </Link>
       <Link to="/tags">
-        <IconButton aria-label="delete" color="primary">
+        <IconButton color="primary">
           <svg
             width="20"
             height="21"

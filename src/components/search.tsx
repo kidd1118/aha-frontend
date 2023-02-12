@@ -2,12 +2,10 @@ import * as React from 'react'
 import { useState } from 'react'
 import { styled, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
+import { useNavigate } from 'react-router-dom'
 import Input from './common/input'
 import Button from './common/button'
 import Slider from './common/slider'
-import { getUsersAsync } from '../store/users'
-import { IUsersRequest } from '../services/users'
-import { useAppDispatch } from '../hooks/useTypedSelector'
 
 const Box = styled('div')(() => ({
   paddingLeft: 50,
@@ -15,8 +13,10 @@ const Box = styled('div')(() => ({
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
-  div: {
-    padding: 10,
+  '> div': {
+    paddingTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 0,
   },
 }))
 
@@ -26,46 +26,35 @@ const AhaDivider = styled(Divider)(() => ({
 }))
 
 export default function Search() {
-  const dispatch = useAppDispatch()
-  const [inputValue, setInputValue] = useState('')
-
-  async function fetchData() {
-    const params: IUsersRequest = {}
-    params.keyword = inputValue
-    await dispatch(getUsersAsync(params))
-  }
-
-  const [sliderValue, setSliderValue] = useState(15)
+  const [keyword, setKeyword] = useState('')
+  const [pageSize, setPageSize] = useState(15)
+  const navigate = useNavigate()
+  const goToResults = () =>
+    navigate({
+      pathname: '/results',
+      search: `?pageSize=${pageSize}&keyword=${keyword}`,
+    })
 
   return (
     <Box>
       <div>Search</div>
       <Input
-        value={inputValue}
+        value={keyword}
         label="Keyword"
-        onChange={(newValue) => setInputValue(newValue.target.value)}
+        onChange={(newValue) => setKeyword(newValue.target.value)}
       />
       <AhaDivider />
       <div># Of Results Per Page</div>
       <div>
         <Typography variant="h4" display="inline-block">
-          {sliderValue}
+          {pageSize}
         </Typography>
         <span> results</span>
       </div>
-      <Slider
-        value={Number(sliderValue)}
-        onChange={(newValue) => setSliderValue(newValue.target.value)}
-      />
+      <Slider value={pageSize} onChange={(newValue) => setPageSize(newValue)} />
       <AhaDivider />
       <div>
-        <Button
-          onClick={() => {
-            fetchData()
-          }}
-        >
-          Search
-        </Button>
+        <Button onClick={goToResults}>Search</Button>
       </div>
     </Box>
   )

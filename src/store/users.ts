@@ -25,7 +25,12 @@ const initialState: IUserState = {
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    clear: (state) => {
+      const s = state
+      s.list.length = 0
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUsersAsync.pending, (state) => {
@@ -34,7 +39,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUsersAsync.fulfilled, (state, { payload }) => {
         const s = state
-        s.list = payload
+        s.list = s.list.length > 0 ? s.list.concat(payload) : payload
         s.status = 'idle'
       })
       .addCase(getUsersAsync.rejected, (state, action) => {
@@ -47,4 +52,5 @@ const usersSlice = createSlice({
   },
 })
 
+export const { clear } = usersSlice.actions
 export default usersSlice
