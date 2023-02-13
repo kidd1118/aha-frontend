@@ -4,7 +4,7 @@ import { styled, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import { useNavigate } from 'react-router-dom'
 import Input from './common/input'
-import Button from './common/button'
+import Button from './common/button1'
 import Slider from './common/slider'
 
 const Box = styled('div')(() => ({

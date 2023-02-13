@@ -3,8 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
 import { IUser, IUsersResponse, getUsers, IUsersRequest } from '../services/users'
 
-export const getUsersAsync = createAsyncThunk(
-  'users/all',
+export const getResultsAsync = createAsyncThunk(
+  'results/all',
   async (params: IUsersRequest | undefined = undefined) => {
     const response: AxiosResponse = await getUsers(params)
     const data: IUsersResponse = response.data as IUsersResponse
@@ -12,32 +12,37 @@ export const getUsersAsync = createAsyncThunk(
   }
 )
 
-export interface IUserState {
+export interface IResultState {
   list: Array<IUser>
   status: string
 }
 
-const initialState: IUserState = {
+const initialState: IResultState = {
   list: [],
   status: 'idle',
 }
 
-const usersSlice = createSlice({
-  name: 'users',
+const resultsSlice = createSlice({
+  name: 'results',
   initialState,
-  reducers: {},
+  reducers: {
+    clear: (state) => {
+      const s = state
+      s.list.length = 0
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(getUsersAsync.pending, (state) => {
+      .addCase(getResultsAsync.pending, (state) => {
         const s = state
         s.status = 'pending'
       })
-      .addCase(getUsersAsync.fulfilled, (state, { payload }) => {
+      .addCase(getResultsAsync.fulfilled, (state, { payload }) => {
         const s = state
-        s.list = payload
+        s.list = s.list.length > 0 ? s.list.concat(payload) : payload
         s.status = 'idle'
       })
-      .addCase(getUsersAsync.rejected, (state, action) => {
+      .addCase(getResultsAsync.rejected, (state, action) => {
         if (action.payload) {
           console.warn('rejected', action.payload)
         } else {
@@ -47,4 +52,5 @@ const usersSlice = createSlice({
   },
 })
 
-export default usersSlice
+export const { clear } = resultsSlice.actions
+export default resultsSlice

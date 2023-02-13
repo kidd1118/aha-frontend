@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Grid, IconButton, styled, Typography } from '@mui/material'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useCallback, useEffect, useRef } from 'react'
-import Button from './common/button'
-import { getUsersAsync, clear } from '../store/users'
+import Button from './common/button1'
+import { getResultsAsync, clear } from '../store/results'
 import { RootState } from '../store'
 import { IUser, IUsersRequest } from '../services/users'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
@@ -25,7 +25,7 @@ function UserCard({ user }: any) {
     <Grid item xs={4}>
       <img src={user.avater} alt="" width="100%" height={100} />
       <div>
-        <Typography variant="subtitle2">{user.name}</Typography>
+        <Typography variant="subtitle1">{user.name}</Typography>
         <Typography variant="caption" color="#B2B2B2">
           by {user.username}
         </Typography>
@@ -48,7 +48,7 @@ export default function Search() {
       pageSize: pageSize == null ? 10 : Number(pageSize),
       keyword: keyword == null ? '' : keyword,
     }
-    await dispatch(getUsersAsync(params))
+    await dispatch(getResultsAsync(params))
   }, [dispatch, page, searchParams])
 
   useEffect(() => {
