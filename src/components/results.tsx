@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Grid, IconButton, styled, Typography } from '@mui/material'
+import { CircularProgress, Grid, IconButton, styled, Typography } from '@mui/material'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Avatar from '@mui/material/Avatar'
 import Button from './common/button1'
 import { getResultsAsync, clear } from '../store/results'
 import { RootState } from '../store'
@@ -13,7 +14,7 @@ const Box = styled('div')(() => ({
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
-  '> div': {
+  '> div, > p': {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 50,
@@ -21,9 +22,44 @@ const Box = styled('div')(() => ({
 }))
 
 function UserCard({ user }: any) {
+  const [defaultDisplay, setDefaultDisplay] = useState('flex')
+  const [avatarDisplay, setAvatarDisplay] = useState('none')
+  const loadHandler = () => {
+    setDefaultDisplay('none')
+    setAvatarDisplay('flex')
+  }
+  const ErrorHandler = () => {
+    setDefaultDisplay('flex')
+    setAvatarDisplay('none')
+  }
   return (
-    <Grid item xs={4}>
-      <img src={user.avater} alt="" width="100%" height={100} />
+    <Grid
+      item
+      xs={4}
+      sx={{
+        aspectRatio: '1/1',
+      }}
+    >
+      <Avatar
+        sx={{
+          display: defaultDisplay,
+          width: '100%',
+          height: '80%',
+          justifyContent: 'center',
+          alignContent: 'center',
+        }}
+        variant="square"
+        alt="avatar"
+      />
+      <Avatar
+        sx={{ display: avatarDisplay, width: '100%', height: '100px' }}
+        variant="square"
+        src={user.avatar}
+        imgProps={{
+          onLoad: loadHandler,
+          onError: ErrorHandler,
+        }}
+      />
       <div>
         <Typography variant="subtitle1">{user.name}</Typography>
         <Typography variant="caption" color="#B2B2B2">
@@ -37,10 +73,12 @@ function UserCard({ user }: any) {
 export default function Search() {
   const dispatch = useAppDispatch()
   const [searchParams] = useSearchParams()
-  const users: Array<IUser> = useTypedSelector((state: RootState) => state.users.list)
+  const results: Array<IUser> = useTypedSelector((state: RootState) => state.results.list)
+  const [loadingDisplay, setLoadingDisplay] = useState('block')
   const page = useRef(0)
 
   const fetchData = useCallback(async () => {
+    setLoadingDisplay('block')
     const pageSize = searchParams.get('pageSize')
     const keyword = searchParams.get('keyword')
     const params: IUsersRequest = {
@@ -49,6 +87,7 @@ export default function Search() {
       keyword: keyword == null ? '' : keyword,
     }
     await dispatch(getResultsAsync(params))
+    setLoadingDisplay('none')
   }, [dispatch, page, searchParams])
 
   useEffect(() => {
@@ -85,8 +124,9 @@ export default function Search() {
       </Link>
       <span>Results</span>
       <Grid container spacing={3}>
-        {users && users.map((user: IUser) => <UserCard user={user} key={user.id} />)}
+        {results && results.map((user: IUser) => <UserCard user={user} key={user.id} />)}
       </Grid>
+      <CircularProgress color="inherit" sx={{ display: loadingDisplay }} />
       <div>
         <Button
           onClick={() => {

@@ -8,15 +8,15 @@ import Button from './common/button1'
 import Slider from './common/slider'
 
 const Box = styled('div')(() => ({
+  position: 'relative',
   paddingLeft: 50,
   paddingRight: 50,
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
-  '> div': {
-    paddingTop: 5,
+  '> div, > p': {
+    paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 0,
   },
 }))
 
@@ -37,25 +37,32 @@ export default function Search() {
 
   return (
     <Box>
-      <div>Search</div>
-      <Input
-        value={keyword}
-        label="Keyword"
-        onChange={(newValue) => setKeyword(newValue.target.value)}
-      />
+      <Typography variant="h6">Search</Typography>
+      <Typography marginBottom={3}>
+        <Input
+          value={keyword}
+          label="Keyword"
+          onChange={(newValue) => setKeyword(newValue.target.value)}
+        />
+      </Typography>
       <AhaDivider />
-      <div># Of Results Per Page</div>
-      <div>
+      <Typography variant="h6" marginTop={3}>
+        # Of Results Per Page
+      </Typography>
+      <Typography>
         <Typography variant="h4" display="inline-block">
           {pageSize}
         </Typography>
-        <span> results</span>
-      </div>
-      <Slider value={pageSize} onChange={(newValue) => setPageSize(newValue)} />
+        <span> </span>
+        <Typography display="inline-block">results</Typography>
+      </Typography>
+      <Typography>
+        <Slider value={pageSize} onChange={(newValue) => setPageSize(newValue)} />
+      </Typography>
       <AhaDivider />
-      <div>
+      <Typography position="absolute" bottom={0}>
         <Button onClick={goToResults}>Search</Button>
-      </div>
+      </Typography>
     </Box>
   )
 }

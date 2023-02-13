@@ -35,20 +35,29 @@ function TabPanel(props: TabPanelProps) {
 }
 
 function FriendCard({ friend }: any) {
-  const [defaultDisplay, setDefaultDisplay] = useState('block')
+  const [defaultDisplay, setDefaultDisplay] = useState('flex')
   const [avatarDisplay, setAvatarDisplay] = useState('none')
   const loadHandler = () => {
     setDefaultDisplay('none')
-    setAvatarDisplay('block')
+    setAvatarDisplay('flex')
   }
   const ErrorHandler = () => {
-    setDefaultDisplay('block')
+    setDefaultDisplay('flex')
     setAvatarDisplay('none')
   }
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} sx={{ marginBottom: 1 }}>
       <Grid item xs={2}>
-        <Avatar sx={{ borderRadius: 1, display: defaultDisplay }} variant="square" alt="avatar" />
+        <Avatar
+          sx={{
+            borderRadius: 1,
+            display: defaultDisplay,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
+          variant="square"
+          alt="avatar"
+        />
         <Avatar
           sx={{ borderRadius: 1, display: avatarDisplay }}
           variant="square"
@@ -60,8 +69,16 @@ function FriendCard({ friend }: any) {
         />
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="subtitle2">{friend.name}</Typography>
-        <Typography variant="caption" color="#B2B2B2">
+        <Typography variant="subtitle2" textAlign="left" paddingLeft="5px">
+          {friend.name}
+        </Typography>
+        <Typography
+          variant="caption"
+          color="#B2B2B2"
+          textAlign="left"
+          display="block"
+          paddingLeft="5px"
+        >
           @{friend.username}
         </Typography>
       </Grid>
@@ -102,7 +119,7 @@ export default function Friends() {
     else fetchFrendsData()
   }
   return (
-    <Box sx={{ backgroundColor: '#1B1B1B' }}>
+    <Box sx={{ backgroundColor: '#1B1B1B', height: '100%', minHeight: '100vh' }}>
       <Tabs value={tabIndex} onChange={handleChange}>
         <Tab label="Followers" disableRipple />
         <Tab label="Following" disableRipple />
