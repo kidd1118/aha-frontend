@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useState } from 'react'
-import { styled, Typography } from '@mui/material'
+import { styled, Typography, useMediaQuery } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
@@ -9,9 +9,6 @@ import Button from './common/button1'
 import Slider from './common/slider'
 
 const Container = styled('div')(() => ({
-  position: 'relative',
-  paddingLeft: 50,
-  paddingRight: 50,
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
@@ -27,6 +24,7 @@ const AhaDivider = styled(Divider)(() => ({
 }))
 
 export default function Search() {
+  const matches = useMediaQuery('(orientation:portrait)')
   const [keyword, setKeyword] = useState('')
   const [pageSize, setPageSize] = useState(15)
   const navigate = useNavigate()
@@ -37,7 +35,7 @@ export default function Search() {
     })
 
   return (
-    <Container>
+    <Container sx={{ paddingLeft: matches ? 0 : 5, paddingRight: matches ? 0 : 5 }}>
       <Typography variant="h6">Search</Typography>
       <Box marginBottom={3}>
         <Input
@@ -61,7 +59,7 @@ export default function Search() {
         <Slider value={pageSize} onChange={(newValue) => setPageSize(newValue)} />
       </Box>
       <AhaDivider />
-      <Box position="absolute" bottom={0}>
+      <Box marginTop={5}>
         <Button onClick={goToResults}>Search</Button>
       </Box>
     </Container>

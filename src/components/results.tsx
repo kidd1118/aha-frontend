@@ -1,5 +1,13 @@
 import * as React from 'react'
-import { CircularProgress, Grid, IconButton, styled, Typography } from '@mui/material'
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  styled,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Avatar from '@mui/material/Avatar'
@@ -10,20 +18,20 @@ import { IUser, IUsersRequest } from '../services/users'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
 
 const Container = styled('div')(() => ({
-  paddingRight: 50,
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
   '>div, > p': {
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 50,
   },
 }))
 
 function UserCard({ user }: any) {
   const [defaultDisplay, setDefaultDisplay] = useState('flex')
   const [avatarDisplay, setAvatarDisplay] = useState('none')
+  const matches = useMediaQuery('(orientation:portrait)')
+
   const loadHandler = () => {
     setDefaultDisplay('none')
     setAvatarDisplay('flex')
@@ -33,13 +41,7 @@ function UserCard({ user }: any) {
     setAvatarDisplay('none')
   }
   return (
-    <Grid
-      item
-      xs={4}
-      sx={{
-        aspectRatio: '1/1',
-      }}
-    >
+    <Grid item xs={matches ? 12 : 4}>
       <Avatar
         sx={{
           display: defaultDisplay,
@@ -47,12 +49,13 @@ function UserCard({ user }: any) {
           height: '80%',
           justifyContent: 'center',
           alignContent: 'center',
+          aspectRatio: '3/2',
         }}
         variant="square"
         alt="avatar"
       />
       <Avatar
-        sx={{ display: avatarDisplay, width: '100%', height: '100px' }}
+        sx={{ display: avatarDisplay, width: '100%', height: '100px', aspectRatio: '3/2' }}
         variant="square"
         src={user.avatar}
         imgProps={{
@@ -75,6 +78,7 @@ export default function Search() {
   const [searchParams] = useSearchParams()
   const results: Array<IUser> = useTypedSelector((state: RootState) => state.results.list)
   const [loadingDisplay, setLoadingDisplay] = useState('block')
+  const matches = useMediaQuery('(orientation:portrait)')
   const page = useRef(0)
 
   const fetchData = useCallback(async () => {
@@ -98,7 +102,7 @@ export default function Search() {
   }, [dispatch, fetchData, page])
 
   return (
-    <Container>
+    <Container sx={{ paddingRight: matches ? 0 : 5 }}>
       <Link to="/">
         <IconButton color="primary">
           <svg
@@ -127,7 +131,7 @@ export default function Search() {
         {results && results.map((user: IUser) => <UserCard user={user} key={user.id} />)}
       </Grid>
       <CircularProgress color="inherit" sx={{ display: loadingDisplay }} />
-      <div>
+      <Box sx={{ paddingLeft: matches ? 0 : 5 }}>
         <Button
           onClick={() => {
             page.current += 1
@@ -136,7 +140,7 @@ export default function Search() {
         >
           MORE
         </Button>
-      </div>
+      </Box>
     </Container>
   )
 }

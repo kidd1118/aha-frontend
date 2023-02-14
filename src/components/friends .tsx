@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import Tab from '@mui/material/Tab'
 import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Tabs from './common/tabs'
 import Button from './common/button2'
 import { getFriendsAsync } from '../store/friends'
@@ -118,8 +119,19 @@ export default function Friends() {
     if (newValue === 0) fetchUsersData()
     else fetchFrendsData()
   }
+
+  const matches = useMediaQuery('(min-width:1440px)')
+
   return (
-    <Box sx={{ backgroundColor: '#1B1B1B', height: '100%', minHeight: '100vh' }}>
+    <Box
+      sx={{
+        position: 'fixed',
+        right: 0,
+        backgroundColor: '#1B1B1B',
+        height: '100%',
+        display: matches ? 'block' : 'none',
+      }}
+    >
       <Tabs value={tabIndex} onChange={handleChange}>
         <Tab label="Followers" disableRipple />
         <Tab label="Following" disableRipple />
