@@ -2,12 +2,13 @@ import * as React from 'react'
 import { useState } from 'react'
 import { styled, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
+import Box from '@mui/material/Box'
 import { useNavigate } from 'react-router-dom'
 import Input from './common/input'
 import Button from './common/button1'
 import Slider from './common/slider'
 
-const Box = styled('div')(() => ({
+const Container = styled('div')(() => ({
   position: 'relative',
   paddingLeft: 50,
   paddingRight: 50,
@@ -36,33 +37,33 @@ export default function Search() {
     })
 
   return (
-    <Box>
+    <Container>
       <Typography variant="h6">Search</Typography>
-      <Typography marginBottom={3}>
+      <Box marginBottom={3}>
         <Input
           value={keyword}
           label="Keyword"
           onChange={(newValue) => setKeyword(newValue.target.value)}
         />
-      </Typography>
+      </Box>
       <AhaDivider />
       <Typography variant="h6" marginTop={3}>
         # Of Results Per Page
       </Typography>
-      <Typography>
+      <Box>
         <Typography variant="h4" display="inline-block">
           {pageSize}
         </Typography>
         <span> </span>
         <Typography display="inline-block">results</Typography>
-      </Typography>
-      <Typography>
+      </Box>
+      <Box>
         <Slider value={pageSize} onChange={(newValue) => setPageSize(newValue)} />
-      </Typography>
+      </Box>
       <AhaDivider />
-      <Typography position="absolute" bottom={0}>
+      <Box position="absolute" bottom={0}>
         <Button onClick={goToResults}>Search</Button>
-      </Typography>
-    </Box>
+      </Box>
+    </Container>
   )
 }

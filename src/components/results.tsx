@@ -9,12 +9,12 @@ import { RootState } from '../store'
 import { IUser, IUsersRequest } from '../services/users'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
 
-const Box = styled('div')(() => ({
+const Container = styled('div')(() => ({
   paddingRight: 50,
   textAlign: 'left',
   height: '100%',
   fontSize: 20,
-  '> div, > p': {
+  '>div, > p': {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 50,
@@ -98,7 +98,7 @@ export default function Search() {
   }, [dispatch, fetchData, page])
 
   return (
-    <Box>
+    <Container>
       <Link to="/">
         <IconButton color="primary">
           <svg
@@ -137,6 +137,6 @@ export default function Search() {
           MORE
         </Button>
       </div>
-    </Box>
+    </Container>
   )
 }

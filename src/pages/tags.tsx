@@ -9,7 +9,7 @@ export default function Page() {
     <Box sx={{ display: 'flex' }}>
       <Menu />
       <Grid container spacing={0}>
-        <Grid xs={12} padding={5}>
+        <Grid item xs={12} padding={5}>
           <Tags />
         </Grid>
       </Grid>

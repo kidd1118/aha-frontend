@@ -10,10 +10,10 @@ export default function Page() {
     <Box sx={{ display: 'flex' }}>
       <Menu />
       <Grid container spacing={0}>
-        <Grid xs={9} padding={5}>
+        <Grid item xs={9} padding={5}>
           <Search />
         </Grid>
-        <Grid xs={3}>
+        <Grid item xs={3}>
           <Friends />
         </Grid>
       </Grid>

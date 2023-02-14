@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { CircularProgress, Grid, styled, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getTagsAsync } from '../store/tags'
 import { RootState } from '../store'
 import { ITag } from '../services/tags'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
 
-const Box = styled('div')(() => ({
+const Container = styled('div')(() => ({
   paddingLeft: 50,
   paddingRight: 50,
   textAlign: 'left',
@@ -58,27 +58,30 @@ function TagCard({ tag }: any) {
 }
 
 export default function Tags() {
+  const isGetData = useRef(false)
   const dispatch = useAppDispatch()
   const [loadingDisplay, setLoadingDisplay] = useState('block')
 
   useEffect(() => {
+    if (isGetData.current) return
     async function fetchData() {
       setLoadingDisplay('block')
       await dispatch(getTagsAsync())
       setLoadingDisplay('none')
     }
     fetchData()
+    isGetData.current = true
   }, [dispatch])
 
   const tags: Array<ITag> = useTypedSelector((state: RootState) => state.tags.list)
 
   return (
-    <Box>
+    <Container>
       <Typography variant="h5">Tags</Typography>
       <Grid container spacing={3}>
         {tags && tags.map((tag: ITag) => <TagCard tag={tag} key={tag.id} />)}
       </Grid>
       <CircularProgress color="inherit" sx={{ display: loadingDisplay }} />
-    </Box>
+    </Container>
   )
 }

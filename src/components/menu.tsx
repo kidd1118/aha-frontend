@@ -11,7 +11,7 @@ const Bar = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   width: 80,
-  '> a > button > svg > path:hover, > a > button > svg.active > path': {
+  '> a > button > svg > path:hover, > a > button.active > svg > path': {
     fill: '#FFFFFF',
   },
 }))
@@ -51,18 +51,19 @@ export default function Menu() {
           </defs>
         </SvgIcon>
         <Link to="/">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setHomeActive('active')
+              setTagActive('inactive')
+            }}
+            className={homeActive}
+          >
             <SvgIcon
               width="20"
               height="21"
               viewBox="0 0 20 21"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => {
-                setHomeActive('active')
-                setTagActive('inactive')
-              }}
-              className={homeActive}
             >
               <path
                 fillRule="evenodd"
@@ -82,19 +83,19 @@ export default function Menu() {
           Home
         </Typography>
         <Link to="/tags">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setHomeActive('inactive')
+              setTagActive('active')
+            }}
+            className={tagActive}
+          >
             <SvgIcon
               width="20"
               height="21"
               viewBox="0 0 20 21"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              onMouseUp={() => {
-                console.warn('ddd')
-                setHomeActive('inactive')
-                setTagActive('active')
-              }}
-              className={tagActive}
             >
               <path
                 fillRule="evenodd"
