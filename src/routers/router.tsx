@@ -4,6 +4,8 @@ import Home from '../pages/home'
 import Results from '../pages/results'
 import Tags from '../pages/tags'
 
+const { hostname } = window.location
+
 export default createBrowserRouter(
   [
     {
@@ -20,6 +22,6 @@ export default createBrowserRouter(
     },
   ],
   {
-    basename: '/',
+    basename: hostname === 'localhost' ? '' : '/aha-frontend',
   }
 )
