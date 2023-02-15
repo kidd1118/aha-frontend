@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <Box sx={{ display: 'flex', flexDirection: matches ? 'column' : 'row' }}>
       <Menu display="flex" />
-      <Box sx={{ position: 'fixed', top: 0, left: 0, width: '70px' }}>
+      <Box sx={{ position: 'fixed', top: 0, left: 0, width: '70px', zIndex: 100 }}>
         <Logo />
       </Box>
       <Grid container spacing={0} paddingLeft={matches ? '' : '80px'}>

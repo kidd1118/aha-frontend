@@ -104,7 +104,7 @@ export default function Search() {
   return (
     <Container sx={{ paddingRight: matches ? 0 : 5 }}>
       <Link to="/">
-        <IconButton color="primary">
+        <IconButton color="primary" sx={{ display: matches ? 'none' : 'inline-block' }}>
           <svg
             width="30"
             height="30"
@@ -125,8 +125,10 @@ export default function Search() {
             </defs>
           </svg>
         </IconButton>
+        <Typography variant="h5" display="inline-block" color="#FFFFFF">
+          Results
+        </Typography>
       </Link>
-      <span>Results</span>
       <Grid container spacing={3}>
         {results && results.map((user: IUser) => <UserCard user={user} key={user.id} />)}
       </Grid>

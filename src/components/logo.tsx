@@ -10,7 +10,6 @@ export default function Logo() {
         marginLeft: '-5px',
         marginTop: '20px',
         marginBottom: '20px',
-        zIndex: 100,
       }}
     >
       <path
