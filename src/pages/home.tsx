@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Menu from '../components/menu'
 import Search from '../components/search'
-import Friends from '../components/friends '
+import Friends from '../components/friends'
 import Logo from '../components/logo'
 
 export default function Page() {

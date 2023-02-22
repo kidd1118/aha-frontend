@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '../components/menu'
 import Results from '../components/results'
-import Friends from '../components/friends '
+import Friends from '../components/friends'
 import Logo from '../components/logo'
 
 export default function Page() {
